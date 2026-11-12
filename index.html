@@ -26,6 +26,10 @@ main{max-width:1500px;margin:0 auto;padding:0 40px 60px;display:grid;grid-templa
 .card:hover,.card.act{background:var(--paper)}
 .nm{font-family:'Fraunces',Georgia,serif;font-size:23px;font-weight:600;letter-spacing:-.015em;line-height:1.1}
 .card:hover .nm,.card.act .nm{color:var(--red)}
+.nm a{color:inherit;text-decoration:none;border-bottom:1.5px solid transparent;transition:.15s}
+.nm a:hover{border-bottom-color:var(--red)}
+.nm a .arr{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;opacity:0;margin-left:4px;transition:.15s}
+.nm a:hover .arr{opacity:1}
 .pr{font-size:14px;color:var(--red);font-weight:500;text-align:right;letter-spacing:.05em}
 .cu{font-size:13px;color:var(--mute)}
 .ic{display:flex;gap:5px;justify-content:flex-end;flex-wrap:wrap}
@@ -4014,7 +4018,7 @@ function badges(v){return Object.keys(NAMES).filter(k=>has(v,k)).map(k=>`<span c
 function render(){
  const r=V.filter(v=>(!st.types.size||st.types.has(v.ty))&&(!st.prices.size||st.prices.has(v.p))&&(!st.area||v.L.some(q=>q.a==st.area))&&[...st.awards].every(k=>has(v,k))).sort((p,q)=>p.n.localeCompare(q.n));
  $('count').textContent=`${r.length} place${r.length==1?'':'s'} to eat & drink`;
- $('list').innerHTML=r.length?r.map(v=>`<div class="card" data-id="${v.id}"><div class="nm">${esc(v.n)}</div><div class="pr">${v.p}</div><div class="cu">${esc(v.c)} · ${v.L.length>1?v.L.length+' locations':esc(v.a)}</div><div class="ic">${badges(v)}</div></div>`).join(''):'<p class="empty">Nothing matches. Try clearing a filter.</p>';
+ $('list').innerHTML=r.length?r.map(v=>`<div class="card" data-id="${v.id}"><div class="nm"><a href="${esc(v.w||v.L[0].g)}" target="_blank" rel="noopener" title="${v.w?'Visit website':'Open in Google Maps'}" onclick="event.stopPropagation()">${esc(v.n)}<span class="arr">↗</span></a></div><div class="pr">${v.p}</div><div class="cu">${esc(v.c)} · ${v.L.length>1?v.L.length+' locations':esc(v.a)}</div><div class="ic">${badges(v)}</div></div>`).join(''):'<p class="empty">Nothing matches. Try clearing a filter.</p>';
  document.querySelectorAll('.card').forEach(c=>c.onclick=()=>hi(+c.dataset.id));
  hidePop();
  if(MAP){try{MAP.show(r)}catch(e){console.warn(e)}}
